@@ -6,6 +6,7 @@ interface Product {
   id: number;
   name: string;
   price: number;
+  fornecedor: string;
   image: string;
   quantity: number;
 }
@@ -51,6 +52,17 @@ const CartItem: React.FC<CartItemProps> = ({ item, onUpdateQuantity, onRemove })
           whiteSpace: 'nowrap'
         }}>
           {item.name}
+        </h3>
+        <h3 style={{
+          fontSize: '10px',
+          fontWeight: '500',
+          color: '#1a1a1a',
+          margin: '0 0 4px 0',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace: 'nowrap'
+        }}>
+          {item.fornecedor}
         </h3>
         <p style={{
           fontSize: '14px',

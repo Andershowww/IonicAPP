@@ -15,6 +15,7 @@ interface Product {
   id: number;
   name: string;
   price: number;
+  fornecedor: string;
   image: string;
   quantity: number;
 }
@@ -26,6 +27,7 @@ const Cart: React.FC = () => {
       id: 1,
       name: 'Cacho de Banana',
       price: 3.45,
+      fornecedor: 'Fornecedor A',
       image: '🍌',
       quantity: 1
     },
@@ -33,6 +35,7 @@ const Cart: React.FC = () => {
       id: 2,
       name: 'Morango',
       price: 3.45,
+      fornecedor: 'Fornecedor B',
       image: '🍓',
       quantity: 1
     },
@@ -40,6 +43,7 @@ const Cart: React.FC = () => {
       id: 3,
       name: 'Cenoura',
       price: 3.45,
+      fornecedor: 'Fornecedor C',
       image: '🥕',
       quantity: 2
     },
@@ -47,6 +51,7 @@ const Cart: React.FC = () => {
       id: 4,
       name: 'Tomate',
       price: 3.60,
+      fornecedor: 'Fornecedor D',
       image: '🍅',
       quantity: 1
     }
