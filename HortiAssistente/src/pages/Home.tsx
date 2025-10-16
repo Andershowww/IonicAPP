@@ -16,7 +16,8 @@ const Home: React.FC = () => {
   const products = [
     { id: 1, name: 'Banana', price: 3.99, rating: 4.8, reviews: 287, image: '🍌' },
     { id: 2, name: 'Pepper', price: 2.99, rating: 4.8, reviews: 287, image: '🫑' },
-    { id: 3, name: 'Orange', price: 3.99, rating: 4.8, reviews: 287, image: '🍊' }
+    { id: 3, name: 'Orange', price: 3.99, rating: 4.8, reviews: 287, image: '🍊' },
+    { id: 4, name: 'Lemon', price: 4.00, rating: 4.8, reviews: 287, image: '🍊' }
   ];
 
   return (
