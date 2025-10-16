@@ -6,7 +6,7 @@ import {
   IonTabButton,
   IonTabs
 } from '@ionic/react';
-import { heart, home, menu, person, search } from 'ionicons/icons';
+import { cart, home, menu, person } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import Favourite from './Favourite';
 import Home from './Home';
@@ -35,18 +35,13 @@ const MainTabs: React.FC = () => {
         </IonTabButton>
 
         <IonTabButton tab="favourite" href="/tabs/favourite">
-          <IonIcon icon={heart} style={{ color: '#666' }} />
-          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Favourite</IonLabel>
+          <IonIcon icon={cart} style={{ color: '#666' }} />
+          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Sacola</IonLabel>
         </IonTabButton>
-
-        <IonTabButton tab="search" href="/tabs/search">
-          <IonIcon icon={search} style={{ color: '#666' }} />
-          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Search</IonLabel>
-        </IonTabButton>
-
+        
         <IonTabButton tab="profile" href="/tabs/profile">
           <IonIcon icon={person} style={{ color: '#666' }} />
-          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Profile</IonLabel>
+          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Perfil</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="menu" href="/tabs/menu">
