@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonIcon, IonText } from '@ionic/react';
-import { add, star } from 'ionicons/icons';
+import { star } from 'ionicons/icons';
 import { useHistory } from 'react-router-dom';
 
 interface ProductCardProps {
@@ -13,7 +13,7 @@ interface ProductCardProps {
   onAdd?: () => void; // função para adicionar ao carrinho
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image, onAdd }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image }) => {
   const history = useHistory(); 
   const goToDetail = () => {
     history.push(`/product/${id}`);
@@ -46,29 +46,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
         }}
       >
         {image}
-        <button
-             onClick={(event) => {
-              event.stopPropagation(); // impede que o clique vá pro card
-              if (onAdd) onAdd(); 
-            }}
-            style={{
-              position: 'absolute',
-              bottom: '8px',
-              right: '8px',
-              width: '32px',
-              height: '32px',
-              borderRadius: '50%',
-              background: '#0ca201',
-              border: 'none',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer',
-              boxShadow: '0 2px 6px rgba(0,0,0,0.2)'
-            }}
-          >
-            <IonIcon icon={add} style={{ fontSize: '20px', color: '#fff' }} />
-          </button>
         
       </div>
 

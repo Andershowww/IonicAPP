@@ -77,3 +77,20 @@
     --ion-color-primary-tint: #24ab1a;
   }
 }
+ion-modal ion-item {
+  --background: #fff !important;
+  background: #fff !important;
+  --padding-top: 0 !important;
+  --padding-bottom: 0 !important;
+}
+ion-list {
+  --background: #fff !important;
+  background: #fff !important;
+}
+
+ion-tab-bar {
+  --background: #fff;       /* fundo branco */
+  --border: none;           /* remove a borda interna do Ionic */
+  box-shadow: 0 -1px 0 0 #757474 !important; /* linha cinza no topo */
+  height: 60px;             /* altura do tab bar */
+}

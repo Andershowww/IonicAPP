@@ -7,7 +7,13 @@ import {
   IonToolbar,
   IonSearchbar,
   IonButton,
-  IonBadge
+  IonBadge,
+  IonModal,
+  IonTitle,
+  IonButtons,
+  IonList,
+  IonItem,
+  IonLabel
 } from '@ionic/react';
 import { cart, chevronDown, location } from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -27,10 +33,23 @@ const Home: React.FC = () => {
   const [results, setResults] = useState([...products]);
   const [selectedCategory, setSelectedCategory] = useState<string>('Produtos por categoria');
   const [cartCount, setCartCount] = useState(0)
+  const [selectedAddress, setSelectedAddress] = useState('Casa');
+  const [showModal, setShowModal] = useState(false);
+
+  const addresses = [
+    'Casa',
+    'Casa 2',
+  ];
+
+  const handleSelectAddress = (address: string) => {
+    setSelectedAddress(address);
+    setShowModal(false);
+  };
 
   const addToCart = () => {
     setCartCount(prev => prev + 1);
   };
+
   const handleInput = (event: Event) => {
     const target = event.target as HTMLIonSearchbarElement;
     const query = (target?.value || '').toLowerCase();
@@ -68,15 +87,13 @@ const Home: React.FC = () => {
               padding: '0 16px'
             }}
           >
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <IonIcon icon={location} style={{ fontSize: '20px', color: '#1a1a1a' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-                <IonText style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                  61 Hopper street..
-                </IonText>
-                <IonIcon icon={chevronDown} style={{ fontSize: '16px', color: '#1a1a1a' }} />
-              </div>
-            </div>
+            <IonButton fill="clear" style={{ display: 'flex', alignItems: 'center', padding: 0 }} onClick={() => setShowModal(true)}>
+              <IonIcon icon={location} style={{ fontSize: '20px', color: '#1a1a1a', marginRight: '6px' }} />
+              <IonText style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a' }}>
+                {selectedAddress}
+              </IonText>
+              <IonIcon icon={chevronDown} style={{ fontSize: '16px', color: '#1a1a1a', marginLeft: '4px' }} />
+            </IonButton>
             <IonButton fill="clear" style={{ padding: 0, minWidth: 'auto' }}>
               <IonIcon icon={cart} style={{ color: '#666' }} />
               {cartCount > 0 && <IonBadge color="danger">{cartCount}</IonBadge>}
@@ -84,6 +101,26 @@ const Home: React.FC = () => {
           </div>
         </IonToolbar>
       </IonHeader>
+      <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+        <IonHeader>
+          <IonToolbar style={{ '--background': '#fff' }}>
+            <IonTitle>Selecione um endereço</IonTitle>
+            <IonButtons slot="end" >
+              <IonButton  onClick={() => setShowModal(false)}>Fechar</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent className="ion-padding" style={{ '--background': '#fff' }}>
+          <IonList color="light">
+            {addresses.map((address, idx) => (
+              <IonItem className="ion-padding p-0" lines="full" style={{ '--background': '#fff' }} key={idx} button onClick={() => handleSelectAddress(address)}>
+                <IonIcon icon={location} slot="start" />
+                <IonLabel>{address}</IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        </IonContent>
+      </IonModal>
 
       <IonContent fullscreen>
         <IonSearchbar
