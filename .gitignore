@@ -7,7 +7,6 @@ yarn-error.log*
 # Build output
 dist/
 build/
-coverage/
 *.tsbuildinfo
 
 # Editor folders and files
@@ -42,7 +41,6 @@ cypress/screenshots/
 
 # VSCode settings (allow only recommended extensions)
 !.vscode/extensions.json
-.vscode/
 
 # Mac system files
 *.DS_Store
@@ -62,13 +60,3 @@ coverage/
 
 # Ignore public/runtime-generated files
 public/runtime/
-
-# JetBrains IDEs
-.idea/
-
-# Optional: ionic-specific
-.sourcemaps/
-.sass-cache/
-
-# Ignore any generated files in the root
-*.tgz
