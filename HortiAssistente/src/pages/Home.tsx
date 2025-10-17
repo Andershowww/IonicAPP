@@ -18,10 +18,13 @@ import {
 import { cart, chevronDown, location } from 'ionicons/icons';
 import React, { useState } from 'react';
 import CategoryList from '../components/CategoryList';
-import OfferBanner from '../components/OfferBanner';
 import ProductCard from '../components/ProductCard';
+import InventoryStatus from '../components/InventoryStatus';
+import { useHistory } from 'react-router-dom';
+
 
 const Home: React.FC = () => {
+  const history = useHistory();
   const products = [
     { id: 1, name: 'Banana', price: 3.99, rating: 4.8, reviews: 287, image: '🍌', category: 'Frutas' },
     { id: 2, name: 'Pimentão', price: 2.99, rating: 4.8, reviews: 287, image: '🫑', category: 'Legumes' },
@@ -40,7 +43,10 @@ const Home: React.FC = () => {
     'Casa',
     'Casa 2',
   ];
-
+  
+  const navigateToRefrigerator = () => {
+    history.push('/refrigerator');
+  };
   const handleSelectAddress = (address: string) => {
     setSelectedAddress(address);
     setShowModal(false);
@@ -129,7 +135,7 @@ const Home: React.FC = () => {
           onIonInput={handleInput}
         ></IonSearchbar>
 
-        <OfferBanner />
+        <InventoryStatus onClick={navigateToRefrigerator} />
         <CategoryList
           selectedCategory={selectedCategory}
           onCategorySelect={handleCategorySelect}
