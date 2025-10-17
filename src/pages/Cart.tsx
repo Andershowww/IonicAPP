@@ -4,7 +4,15 @@ import {
   IonIcon,
   IonPage,
   IonText,
-  IonToolbar
+  IonToolbar,
+  IonButton,
+  IonBadge,
+  IonModal,
+  IonTitle,
+  IonButtons,
+  IonList,
+  IonItem,
+  IonLabel
 } from '@ionic/react';
 import { arrowBack, cart, chevronDown, location } from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -21,7 +29,20 @@ interface Product {
 }
 
 const Cart: React.FC = () => {
+  const [selectedAddress, setSelectedAddress] = useState('Casa');
+  const [showModal, setShowModal] = useState(false);
   const history = useHistory();
+
+  const addresses = [
+    'Casa',
+    'Casa 2',
+  ];
+
+  const handleSelectAddress = (address: string) => {
+    setSelectedAddress(address);
+    setShowModal(false);
+  };
+  
   const [cartItems, setCartItems] = useState<Product[]>([
     {
       id: 1,
@@ -81,32 +102,57 @@ const Cart: React.FC = () => {
       <IonHeader className="ion-no-border">
         <IonToolbar style={{ '--background': '#fff', '--padding-top': '8px', '--padding-bottom': '8px' }}>
           <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '0 16px'
-          }}>
+                  display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  padding: '0 16px',
+                  position: 'relative', // necessário para posicionar o botão de voltar
+                  height: '48px'
+                }}>
 
             {/* Botão de voltar */}
             <IonIcon
                 icon={arrowBack}
-                style={{ fontSize: '24px', color: '#1a1a1a', cursor: 'pointer' }}
+                style={{
+                  fontSize: '24px',
+                  color: '#1a1a1a',
+                  cursor: 'pointer',
+                  position: 'absolute',
+                  left: '16px', // fixa na borda esquerda
+                }}
                 onClick={() => history.push('/home')} // <-- volta para a home
             />
 
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-              <IonIcon icon={location} style={{ fontSize: '20px', color: '#1a1a1a' }} />
-              <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            <IonButton fill="clear" style={{ display: 'flex', alignItems: 'center', padding: 0, margin: 0,}} onClick={() => setShowModal(true)}>
+                <IonIcon icon={location} style={{ fontSize: '20px', color: '#1a1a1a', marginRight: '6px' }} />
                 <IonText style={{ fontSize: '14px', fontWeight: '600', color: '#1a1a1a' }}>
-                  Meu Endereço
+                  {selectedAddress}
                 </IonText>
-                <IonIcon icon={chevronDown} style={{ fontSize: '16px', color: '#1a1a1a' }} />
-              </div>
+                <IonIcon icon={chevronDown} style={{ fontSize: '16px', color: '#1a1a1a', marginLeft: '4px' }} />
+              </IonButton>
             </div>
-            <IonIcon icon={cart} style={{ fontSize: '24px', color: '#1a1a1a' }} />
-          </div>
-        </IonToolbar>
-      </IonHeader>
+          </IonToolbar>
+        </IonHeader>
+        <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
+          <IonHeader>
+            <IonToolbar style={{ '--background': '#fff' }}>
+              <IonTitle>Selecione um endereço</IonTitle>
+              <IonButtons slot="end" >
+                <IonButton  onClick={() => setShowModal(false)}>Fechar</IonButton>
+              </IonButtons>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent className="ion-padding" style={{ '--background': '#fff' }}>
+            <IonList color="light">
+              {addresses.map((address, idx) => (
+                <IonItem className="ion-padding p-0" lines="full" style={{ '--background': '#fff' }} key={idx} button onClick={() => handleSelectAddress(address)}>
+                  <IonIcon icon={location} slot="start" />
+                  <IonLabel>{address}</IonLabel>
+                </IonItem>
+              ))}
+            </IonList>
+          </IonContent>
+        </IonModal>
 
       <IonContent fullscreen>
         {/* Banner */}
