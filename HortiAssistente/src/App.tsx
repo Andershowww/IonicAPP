@@ -6,6 +6,7 @@ import Cart from './pages/Cart';
 import OrderReview from './pages/OrderReview';
 import MyFridge from './pages/MyFridge';
 import Product from './pages/Product';
+import MyOrders from './pages/MyOrders';
 
 /* Core CSS */
 import '@ionic/react/css/core.css';
@@ -49,6 +50,7 @@ const App: React.FC = () => (
         <Route exact path="/review" component={OrderReview} />
         <Route exact path="/myfridge" component={MyFridge} />
         <Route exact path="/product" component={Product} />
+        <Route exact path="/myorders" component={MyOrders} />
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
