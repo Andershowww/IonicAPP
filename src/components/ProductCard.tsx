@@ -1,6 +1,6 @@
-import React from 'react';
 import { IonIcon, IonText } from '@ionic/react';
 import { star } from 'ionicons/icons';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 interface ProductCardProps {
@@ -10,14 +10,23 @@ interface ProductCardProps {
   rating: number;
   reviews: number;
   image: string;
-  onAdd?: () => void; // função para adicionar ao carrinho
+  onAdd?: () => void;
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image }) => {
-  const history = useHistory(); 
+const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image, onAdd }) => {
+  const history = useHistory();
+  
   const goToDetail = () => {
     history.push(`/product/${id}`);
   };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (onAdd) {
+      onAdd();
+    }
+  };
+
   return (
     <div
       style={{
@@ -26,7 +35,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
         padding: '16px',
         boxShadow: '0 2px 12px rgba(0,0,0,0.08)',
         position: 'relative',
-        minWidth: '160px'
+        cursor: 'pointer'
       }}
       onClick={goToDetail}
     >
@@ -46,7 +55,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
         }}
       >
         {image}
-        
       </div>
 
       {/* Nome */}
@@ -69,6 +77,30 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
       <IonText style={{ fontSize: '18px', fontWeight: 'bold', color: '#1a1a1a' }}>
         {price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
       </IonText>
+
+      {/* Botão de adicionar ao carrinho */}
+      <button
+        onClick={handleAddToCart}
+        style={{
+          position: 'absolute',
+          top: '12px',
+          right: '12px',
+          background: '#16a34a',
+          color: '#fff',
+          border: 'none',
+          borderRadius: '50%',
+          width: '32px',
+          height: '32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          fontSize: '16px',
+          cursor: 'pointer',
+          boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
+        }}
+      >
+        +
+      </button>
     </div>
   );
 };
