@@ -60,3 +60,6 @@ coverage/
 
 # Ignore public/runtime-generated files
 public/runtime/
+
+# Android config
+

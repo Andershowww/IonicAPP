@@ -1,0 +1,30 @@
+# Ignora arquivos gerados e sensíveis na pasta android
+
+# Arquivos locais do ambiente
+local.properties
+
+# Build output
+/app/build/
+/build/
+
+# Cache do Gradle
+/.gradle/
+/gradle/caches/
+/gradle/daemon/
+/gradle/native/
+/gradle/worker/
+/gradle/wrapper/gradle-wrapper.jar
+
+# Arquivos de log
+*.log
+
+# Arquivos temporários do sistema operacional
+*.iml
+.DS_Store
+
+# Pasta de saída de APKs intermediários
+/app/intermediates/
+/app/outputs/
+
+# Pasta de testes
+/app/tmp/
