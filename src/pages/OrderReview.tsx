@@ -112,7 +112,7 @@ const OrderReview: React.FC = () => {
                 color: '#1a1a1a',
                 cursor: 'pointer'
               }}
-              onClick={() => history.push('/home')}
+              onClick={() => history.goBack()}
             />
 
             {/* Título */}

@@ -2,10 +2,7 @@ import { Redirect, Route } from 'react-router-dom';
 import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import MainTabs from './pages/MainTabs';
-import ProductDetail from './pages/ProductDetail';
-import Cart from './pages/Cart';
 import OrderReview from './pages/OrderReview';
-import MyFridge from './pages/MyFridge';
 import Product from './pages/Product';
 import MyOrders from './pages/MyOrders';
 import Payment from './pages/Payment';
@@ -26,6 +23,8 @@ import '@ionic/react/css/palettes/dark.system.css';
 
 /* Theme */
 import './theme/variables.css';
+import Profile from './pages/Profile';
+import Address from './pages/Address';
 
 setupIonicReact();
 
@@ -34,14 +33,13 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonRouterOutlet>
         <Route path="/tabs" component={MainTabs} />
-        <Route exact path="/product/:id" component={ProductDetail} />
-        <Route exact path="/cart" component={Cart} />
         <Route exact path="/review" component={OrderReview} />
-        <Route exact path="/myfridge" component={MyFridge} />
         <Route exact path="/product" component={Product} />
+        <Route exact path="/profile" component={Profile} />
         <Route exact path="/product-selection" component={ProductSelection} />
         <Route exact path="/myorders" component={MyOrders} />
         <Route exact path="/payment" component={Payment} />
+        <Route exact path="/address" component={Address} />
         <Route exact path="/">
           <Redirect to="/tabs/home" />
         </Route>

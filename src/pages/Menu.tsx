@@ -8,17 +8,13 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonButton
 } from '@ionic/react';
 import { 
   arrowBack, 
   person, 
-  list, 
-  home, 
+  list,
   location, 
   logOut,
-  settings,
-  notifications
 } from 'ionicons/icons';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
@@ -29,7 +25,6 @@ const Menu: React.FC = () => {
   const menuItems = [
     { id: 1, title: 'Minha Conta', icon: person, route: '/profile' },
     { id: 2, title: 'Meus Pedidos', icon: list, route: '/myorders' },
-    { id: 3, title: 'Minha Geladeira', icon: home, route: '/myfridge' },
     { id: 4, title: 'Endereço', icon: location, route: '/address' },
     { id: 5, title: 'Sair', icon: logOut, route: '/login', isLogout: true }
   ];
@@ -39,6 +34,7 @@ const Menu: React.FC = () => {
       alert('Logout realizado com sucesso!');
       history.push('/tabs/home');
     } else {
+      console.log(route);
       history.push(route);
     }
   };

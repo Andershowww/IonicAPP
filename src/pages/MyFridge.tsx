@@ -84,6 +84,7 @@ const MyFridge: React.FC = () => {
                 alignItems: 'center',
                 justifyContent: 'center'
               }}
+              onClick={() => history.push("/tabs/home")}
             >
             {/* Botão de voltar */}
             <IonIcon

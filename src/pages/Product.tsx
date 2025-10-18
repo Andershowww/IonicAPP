@@ -20,7 +20,7 @@ const Product: React.FC = () => {
     <IonPage>
       <IonContent fullscreen className="ion-padding">
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0 16px", height: "48px" }}>
-          <IonIcon icon={arrowBack} style={{ fontSize: "24px", color: "#1a1a1a", cursor: "pointer" }} onClick={() => history.push("/home")} />
+          <IonIcon icon={arrowBack} style={{ fontSize: "24px", color: "#1a1a1a", cursor: "pointer" }} onClick={() => history.push("/tabs/home")} />
           <IonText style={{ fontSize: "16px", fontWeight: "600", color: "#1a1a1a" }}>Selecionar Produto</IonText>
           <div style={{ width: "24px" }}></div>
         </div>
