@@ -6,7 +6,7 @@ import {
   IonTabButton,
   IonTabs
 } from '@ionic/react';
-import { cart, home, menu, person } from 'ionicons/icons';
+import { cart, home, menu, fastFoodSharp } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
 import Home from './Home';
 import Menu from './Menu';
@@ -29,23 +29,38 @@ const MainTabs: React.FC = () => {
       </IonRouterOutlet>
 
       <IonTabBar slot="bottom" style={{ '--background': '#fff', height: '60px' }}>
-        <IonTabButton tab="home" href="/tabs/home">
-          <IonIcon icon={home} style={{ color: '#0ca201' }} />
-          <IonLabel style={{ color: '#0ca201', fontSize: '12px', fontWeight: '500' }}>Home</IonLabel>
+        <IonTabButton tab="home" href="/tabs/home" style={{
+          '--color': '#666',
+          '--color-selected': '#0ca201'
+        }}>
+          <IonIcon icon={home} style={{
+            '--color': '#666',
+            '--color-selected': '#0ca201'
+          }} />
+          <IonLabel style={{ color: '#666', fontSize: '12px', fontWeight: '500' }}>Home</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="cart" href="/tabs/cart">
-          <IonIcon icon={cart} style={{ color: '#666' }} />
+          <IonIcon icon={cart} style={{
+            '--color': '#666',
+            '--color-selected': '#0ca201'
+          }} />
           <IonLabel style={{ color: '#666', fontSize: '12px' }}>Sacola</IonLabel>
         </IonTabButton>
-        
+
         <IonTabButton tab="myfridge" href="/tabs/myfridge">
-          <IonIcon icon={person} style={{ color: '#666' }} />
+          <IonIcon icon={fastFoodSharp} style={{
+            '--color': '#666',
+            '--color-selected': '#0ca201'
+          }} />
           <IonLabel style={{ color: '#666', fontSize: '12px' }}>Geladeira</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="menu" href="/tabs/menu">
-          <IonIcon icon={menu} style={{ color: '#666' }} />
+          <IonIcon icon={menu} style={{
+            '--color': '#666',
+            '--color-selected': '#0ca201'
+          }} />
           <IonLabel style={{ color: '#666', fontSize: '12px' }}>Menu</IonLabel>
         </IonTabButton>
       </IonTabBar>

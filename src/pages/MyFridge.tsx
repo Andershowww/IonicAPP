@@ -16,47 +16,21 @@ interface FridgeProduct {
   name: string;
   quantity: number;
   image: string;
+  category: 'fruit' | 'vegetable' | 'dairy' | 'meat' | 'other';
+  expiryDays: number;
 }
 
 const MyFridge: React.FC = () => {
     const history = useHistory();
   const [fridgeItems] = useState<FridgeProduct[]>([
-    {
-      id: 1,
-      name: 'Banana',
-      quantity: 4,
-      image: '🍌'
-    },
-    {
-      id: 2,
-      name: 'Brócolis',
-      quantity: 3,
-      image: '🥦'
-    },
-    {
-      id: 3,
-      name: 'Laranja',
-      quantity: 2,
-      image: '🍊'
-    },
-    {
-      id: 4,
-      name: 'Cenoura',
-      quantity: 1,
-      image: '🥕'
-    },
-    {
-      id: 5,
-      name: 'Morango',
-      quantity: 5,
-      image: '🍓'
-    },
-    {
-      id: 6,
-      name: 'Tomate',
-      quantity: 6,
-      image: '🍅'
-    }
+    { id: 1, name: 'Banana', quantity: 4, image: '🍌', category: 'fruit', expiryDays: 3 },
+    { id: 2, name: 'Brócolis', quantity: 3, image: '🥦', category: 'vegetable', expiryDays: 5 },
+    { id: 3, name: 'Laranja', quantity: 2, image: '🍊', category: 'fruit', expiryDays: 7 },
+    { id: 4, name: 'Cenoura', quantity: 1, image: '🥕', category: 'vegetable', expiryDays: 2 },
+    { id: 5, name: 'Morango', quantity: 5, image: '🍓', category: 'fruit', expiryDays: 4 },
+    { id: 6, name: 'Tomate', quantity: 6, image: '🍅', category: 'vegetable', expiryDays: 6 },
+    { id: 7, name: 'Leite', quantity: 2, image: '🥛', category: 'dairy', expiryDays: 8 },
+    { id: 8, name: 'Queijo', quantity: 1, image: '🧀', category: 'dairy', expiryDays: 10 }
   ]);
 
   const handleBuy = (itemId: number) => {
@@ -119,6 +93,7 @@ const MyFridge: React.FC = () => {
                 name={item.name}
                 quantity={item.quantity}
                 image={item.image}
+                expiryDays={item.expiryDays}
                 onBuy={handleBuy}
               />
             ))}
