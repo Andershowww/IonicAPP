@@ -6,7 +6,6 @@ import {
   IonText,
   IonToolbar,
   IonButton,
-  IonBadge,
   IonModal,
   IonTitle,
   IonButtons,
@@ -120,7 +119,7 @@ const Cart: React.FC = () => {
                   position: 'absolute',
                   left: '16px', // fixa na borda esquerda
                 }}
-                onClick={() => history.push('/home')} // <-- volta para a home
+                onClick={() => history.push('/tabs/home')} // <-- volta para a home
             />
 
             <IonButton fill="clear" style={{ display: 'flex', alignItems: 'center', padding: 0, margin: 0,}} onClick={() => setShowModal(true)}>
@@ -236,7 +235,8 @@ const Cart: React.FC = () => {
             gap: '8px',
             fontSize: '16px',
             cursor: 'pointer'
-          }}>
+          }}
+          onClick={() => history.push("/payment")}>
             Ir para Pagamento (R${totalAmount.toFixed(2)})
             <IonIcon icon={cart} style={{ fontSize: '20px' }} />
           </button>

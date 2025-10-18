@@ -45,12 +45,17 @@ const Home: React.FC = () => {
   ];
   
   const navigateToRefrigerator = () => {
-    history.push('/refrigerator');
+    history.push('/tabs/myFridge');
   };
   const handleSelectAddress = (address: string) => {
     setSelectedAddress(address);
     setShowModal(false);
   };
+
+
+  const navigateToCart = () => {
+    history.push('/tabs/cart')
+  }
 
   const addToCart = () => {
     setCartCount(prev => prev + 1);
@@ -100,7 +105,7 @@ const Home: React.FC = () => {
               </IonText>
               <IonIcon icon={chevronDown} style={{ fontSize: '16px', color: '#1a1a1a', marginLeft: '4px' }} />
             </IonButton>
-            <IonButton fill="clear" style={{ padding: 0, minWidth: 'auto' }}>
+            <IonButton onClick={navigateToCart} fill="clear" style={{ padding: 0, minWidth: 'auto' }}>
               <IonIcon icon={cart} style={{ color: '#666' }} />
               {cartCount > 0 && <IonBadge color="danger">{cartCount}</IonBadge>}
             </IonButton>

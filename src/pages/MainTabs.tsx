@@ -8,20 +8,20 @@ import {
 } from '@ionic/react';
 import { cart, home, menu, person } from 'ionicons/icons';
 import { Redirect, Route } from 'react-router-dom';
-import Favourite from './Favourite';
 import Home from './Home';
 import Menu from './Menu';
-import Profile from './Profile';
 import Search from './Search';
+import Cart from './Cart';
+import MyFridge from './MyFridge';
 
 const MainTabs: React.FC = () => {
   return (
     <IonTabs>
       <IonRouterOutlet>
         <Route exact path="/tabs/home" component={Home} />
-        <Route exact path="/tabs/favourite" component={Favourite} />
+        <Route exact path="/tabs/cart" component={Cart} />
         <Route exact path="/tabs/search" component={Search} />
-        <Route exact path="/tabs/profile" component={Profile} />
+        <Route exact path="/tabs/myfridge" component={MyFridge} />
         <Route exact path="/tabs/menu" component={Menu} />
         <Route exact path="/tabs">
           <Redirect to="/tabs/home" />
@@ -34,14 +34,14 @@ const MainTabs: React.FC = () => {
           <IonLabel style={{ color: '#0ca201', fontSize: '12px', fontWeight: '500' }}>Home</IonLabel>
         </IonTabButton>
 
-        <IonTabButton tab="favourite" href="/tabs/favourite">
+        <IonTabButton tab="cart" href="/tabs/cart">
           <IonIcon icon={cart} style={{ color: '#666' }} />
           <IonLabel style={{ color: '#666', fontSize: '12px' }}>Sacola</IonLabel>
         </IonTabButton>
         
-        <IonTabButton tab="profile" href="/tabs/profile">
+        <IonTabButton tab="myfridge" href="/tabs/myfridge">
           <IonIcon icon={person} style={{ color: '#666' }} />
-          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Perfil</IonLabel>
+          <IonLabel style={{ color: '#666', fontSize: '12px' }}>Geladeira</IonLabel>
         </IonTabButton>
 
         <IonTabButton tab="menu" href="/tabs/menu">
