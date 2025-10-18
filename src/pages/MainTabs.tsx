@@ -13,6 +13,8 @@ import Menu from './Menu';
 import Search from './Search';
 import Cart from './Cart';
 import MyFridge from './MyFridge';
+import MyOrders from './MyOrders';
+
 
 const MainTabs: React.FC = () => {
   return (
@@ -23,6 +25,7 @@ const MainTabs: React.FC = () => {
         <Route exact path="/tabs/search" component={Search} />
         <Route exact path="/tabs/myfridge" component={MyFridge} />
         <Route exact path="/tabs/menu" component={Menu} />
+        <Route exact path="/tabs/myorders" component={MyOrders} />        
         <Route exact path="/tabs">
           <Redirect to="/tabs/home" />
         </Route>

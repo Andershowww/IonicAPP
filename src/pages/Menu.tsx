@@ -24,7 +24,7 @@ const Menu: React.FC = () => {
 
   const menuItems = [
     { id: 1, title: 'Minha Conta', icon: person, route: '/profile' },
-    { id: 2, title: 'Meus Pedidos', icon: list, route: '/myorders' },
+    { id: 2, title: 'Meus Pedidos', icon: list, route: '/tabs/myorders' },
     { id: 4, title: 'Endereço', icon: location, route: '/address' },
     { id: 5, title: 'Sair', icon: logOut, route: '/login', isLogout: true }
   ];
