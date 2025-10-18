@@ -20,15 +20,26 @@ import '@ionic/react/css/text-transformation.css';
 import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import '@ionic/react/css/palettes/dark.system.css';
+import { SplashScreen } from '@capacitor/splash-screen';
 
 /* Theme */
 import './theme/variables.css';
 import Profile from './pages/Profile';
 import Address from './pages/Address';
+import { useEffect } from 'react';
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App: React.FC = () => {
+useEffect(() => {
+    // Esconde manualmente o splash após 2 segundos
+    const timer = setTimeout(() => {
+      SplashScreen.hide();
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  return(
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
@@ -46,6 +57,6 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
-);
+)};
 
 export default App;
