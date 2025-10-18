@@ -5,23 +5,27 @@ interface FridgeItemProps {
   name: string;
   quantity: number;
   image: string;
+  expiryDays?: number;
   onBuy: (id: number) => void;
 }
 
-const FridgeItem: React.FC<FridgeItemProps> = ({ id, name, quantity, image, onBuy }) => {
+const FridgeItem: React.FC<FridgeItemProps> = ({ id, name, quantity, image, expiryDays = 0, onBuy }) => {
+  const isLow = quantity <= 2;
+  const isExpiring = expiryDays <= 3 && expiryDays > 0;
   return (
     <div
       style={{
-        background: '#fff',
-        border: '1px solid #e5e7eb',
-        borderRadius: '12px',
-        padding: '16px',
+        background: '#ffffff',
+        borderRadius: '16px',
+        padding: '12px',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
-        gap: '8px'
-      }}
-    >
+        transition: 'all 0.2s',
+        border: isLow || isExpiring ? '2px solid #fca5a5' : 'none',
+        cursor: 'default'
+      }}>
       <div style={{
         width: '80px',
         height: '80px',
@@ -42,27 +46,32 @@ const FridgeItem: React.FC<FridgeItemProps> = ({ id, name, quantity, image, onBu
         {name}
       </h3>
 
-      <p style={{
-        fontSize: '13px',
-        color: '#6b7280',
-        margin: 0
-      }}>
-        {quantity} Unid.
-      </p>
-
+      <div style={{ display: 'flex', alignItems: 'center', gap: '4px', marginBottom: '4px' }}>
+        <span style={{ fontSize: '16px', fontWeight: 'bold', color: isLow ? '#dc2626' : '#1a1a1a' }}>{quantity}</span>
+        <span style={{ fontSize: '12px', color: '#6b7280' }}>un.</span>
+      </div>
+      {isExpiring && (
+        <span style={{ fontSize: '12px', fontWeight: '600', color: '#f97316', marginBottom: '4px' }}>
+          {expiryDays} dias
+        </span>
+      )}
       <button
         onClick={() => onBuy(id)}
         style={{
           width: '100%',
-          background: '#16a34a',
-          color: '#fff',
-          fontWeight: '600',
-          fontSize: '13px',
-          padding: '8px 16px',
+          backgroundColor: '#16a34a',
+          color: '#ffffff',
+          fontWeight: 600,
+          fontSize: '12px',
+          padding: '8px 12px',
           borderRadius: '8px',
           border: 'none',
           cursor: 'pointer',
-          marginTop: '4px'
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          gap: '4px',
+          marginTop: 'auto'
         }}
       >
         Comprar

@@ -25,10 +25,14 @@ import '@ionic/react/css/palettes/dark.system.css';
 import './theme/variables.css';
 import Profile from './pages/Profile';
 import Address from './pages/Address';
+import CustomSplash from "./components/CustomSplash";
+
 
 setupIonicReact();
 
 const App: React.FC = () => (
+  <>
+  <CustomSplash />
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
@@ -46,6 +50,7 @@ const App: React.FC = () => (
       </IonRouterOutlet>
     </IonReactRouter>
   </IonApp>
+  </>
 );
 
 export default App;
