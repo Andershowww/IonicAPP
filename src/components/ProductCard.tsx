@@ -4,7 +4,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 interface ProductCardProps {
-  id: number;
+  id: string;
   name: string;
   price: number;
   rating: number;
@@ -17,8 +17,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
   const history = useHistory();
   
   const goToDetail = () => {
-    const product = {id, name, price, rating, reviews, image};
-    history.push("/product", {product});
+    history.push(`/product/${id}`);
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {

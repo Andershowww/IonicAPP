@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import {
   IonCard,
   IonCardContent,
@@ -14,23 +14,32 @@ import {
   IonContent,
 } from "@ionic/react";
 import { add, arrowBack, remove } from "ionicons/icons";
-import { useHistory, useLocation } from "react-router";
+import { useHistory, useParams } from "react-router";
+import { FirebaseService } from "../service/firebaseService";
+import { Product } from "../types";
 
-const Product: React.FC = () => {
+const ProductComponent: React.FC = () => {
   const history = useHistory();
-  const location = useLocation();
 
-  const { product } = location.state as {
-    id: string;
-    name: string;
-    price: number;
-    rating: string;
-    reviews: string;
-    image: string;
-  };
+  const { id } = useParams<{ id: string }>();
+
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [quantity, setQuantity] = useState(1);
+
+  useEffect(() => {
+    const service = new FirebaseService();
+    service.getProducts().then((products) => {
+      const found = products.find((p) => p.id === id);
+      setProduct(found || null);
+      setLoading(false);
+    });
+  }, [id]);
+
+  if (loading) return <div>Carregando...</div>;
+  if (!product) return <div>Produto não encontrado</div>;
 
   const unitPrice = product.price;
-  const [quantity, setQuantity] = useState(1);
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
@@ -82,7 +91,7 @@ const Product: React.FC = () => {
           </div>
         </IonToolbar>
       </IonHeader>
-      
+
       <IonContent fullscreen>
         <IonCard
           style={{
@@ -280,4 +289,4 @@ const Product: React.FC = () => {
   );
 };
 
-export default Product;
+export default ProductComponent;

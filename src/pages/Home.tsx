@@ -136,7 +136,7 @@ const Home: React.FC = () => {
                 {filteredProducts.map(product => (
                   <ProductCard
                     key={product.id}
-                    id={parseInt(product.id.replace('prod-', ''))}
+                    id={product.id}
                     name={product.name}
                     price={product.price}
                     rating={product.rating}
