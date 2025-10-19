@@ -1,226 +1,240 @@
+import React, { useEffect, useState } from "react";
 import {
   IonContent,
   IonHeader,
   IonIcon,
   IonPage,
   IonText,
-  IonToolbar
-} from '@ionic/react';
-import { arrowBack, chevronForward } from 'ionicons/icons';
-import React from 'react';
-import { useHistory } from 'react-router-dom';
+  IonToolbar,
+  IonSpinner,
+} from "@ionic/react";
+import { arrowBack, chevronForward } from "ionicons/icons";
+import { useHistory } from "react-router-dom";
+import { FirebaseService } from "../service/firebaseService";
 
 interface Order {
-  id: number;
+  id: string;
   date: string;
-  status: 'entregue' | 'em_transito' | 'cancelado';
-  total: number;
+  status: "entregue" | "em_transito" | "cancelado";
+  valorTotal: number;
   items: number;
 }
 
 const MyOrders: React.FC = () => {
   const history = useHistory();
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const orders: Order[] = [
-    {
-      id: 1234,
-      date: '15/10/2025',
-      status: 'entregue',
-      total: 89.90,
-      items: 8
-    },
-    {
-      id: 1233,
-      date: '10/10/2025',
-      status: 'entregue',
-      total: 125.50,
-      items: 12
-    },
-    {
-      id: 1232,
-      date: '05/10/2025',
-      status: 'em_transito',
-      total: 67.30,
-      items: 5
-    },
-    {
-      id: 1231,
-      date: '01/10/2025',
-      status: 'entregue',
-      total: 94.20,
-      items: 9
-    }
-  ];
-
-  const getStatusColor = (status: Order['status']) => {
+  const getStatusColor = (status: Order["status"]) => {
     switch (status) {
-      case 'entregue':
-        return '#16a34a';
-      case 'em_transito':
-        return '#f59e0b';
-      case 'cancelado':
-        return '#dc2626';
+      case "entregue":
+        return "#16a34a";
+      case "em_transito":
+        return "#f59e0b";
+      case "cancelado":
+        return "#dc2626";
       default:
-        return '#6b7280';
+        return "#6b7280";
     }
   };
 
-  const getStatusText = (status: Order['status']) => {
+  const getStatusText = (status: Order["status"]) => {
     switch (status) {
-      case 'entregue':
-        return 'Entregue';
-      case 'em_transito':
-        return 'Em Trânsito';
-      case 'cancelado':
-        return 'Cancelado';
+      case "entregue":
+        return "Entregue";
+      case "em_transito":
+        return "Em Trânsito";
+      case "cancelado":
+        return "Cancelado";
       default:
         return status;
     }
   };
+
+  // 🔹 Busca os pedidos do Firebase
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const service = new FirebaseService();
+        const data = await service.getOrders();
+        console.log("pedidos",data)
+        setOrders(data as Order[]);
+      } catch (error) {
+        console.error("Erro ao buscar pedidos:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
 
   return (
     <IonPage>
       <IonHeader className="ion-no-border">
         <IonToolbar
           style={{
-            '--background': '#fff',
-            '--padding-top': '8px',
-            '--padding-bottom': '8px'
+            "--background": "#fff",
+            "--padding-top": "8px",
+            "--padding-bottom": "8px",
           }}
         >
           <div
             style={{
-              display: 'flex',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-              padding: '0 16px',
-              height: '48px'
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+              padding: "0 16px",
+              height: "48px",
             }}
           >
             <IonIcon
               icon={arrowBack}
               style={{
-                fontSize: '24px',
-                color: '#1a1a1a',
-                cursor: 'pointer'
+                fontSize: "24px",
+                color: "#1a1a1a",
+                cursor: "pointer",
               }}
               onClick={() => history.goBack()}
             />
-
             <IonText
               style={{
-                fontSize: '16px',
-                fontWeight: '600',
-                color: '#1a1a1a'
+                fontSize: "16px",
+                fontWeight: "600",
+                color: "#1a1a1a",
               }}
             >
               Meus Pedidos
             </IonText>
 
-            <div style={{ width: '24px' }}></div>
+            <div style={{ width: "24px" }}></div>
           </div>
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen style={{ '--background': '#f9fafb' }}>
-        <div style={{ padding: '16px' }}>
-          {orders.length === 0 ? (
+      <IonContent fullscreen style={{ "--background": "#f9fafb" }}>
+        <div style={{ padding: "16px" }}>
+          {loading ? (
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                padding: '48px 16px',
-                textAlign: 'center'
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "70vh",
               }}
             >
-              <div style={{ fontSize: '64px', marginBottom: '16px' }}>📦</div>
-              <IonText style={{ fontSize: '18px', fontWeight: '600', color: '#1a1a1a' }}>
+              <IonSpinner name="crescent" />
+            </div>
+          ) : orders.length === 0 ? (
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "48px 16px",
+                textAlign: "center",
+              }}
+            >
+              <div style={{ fontSize: "64px", marginBottom: "16px" }}>📦</div>
+              <IonText
+                style={{
+                  fontSize: "18px",
+                  fontWeight: "600",
+                  color: "#1a1a1a",
+                }}
+              >
                 Nenhum pedido ainda
               </IonText>
-              <IonText style={{ fontSize: '14px', color: '#6b7280', marginTop: '8px' }}>
+              <IonText
+                style={{
+                  fontSize: "14px",
+                  color: "#6b7280",
+                  marginTop: "8px",
+                }}
+              >
                 Seus pedidos aparecerão aqui
               </IonText>
             </div>
           ) : (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
               {orders.map((order) => (
                 <div
                   key={order.id}
                   onClick={() => history.push(`/order/${order.id}`)}
                   style={{
-                    background: '#fff',
-                    borderRadius: '12px',
-                    padding: '16px',
-                    cursor: 'pointer',
-                    transition: 'transform 0.2s',
-                    boxShadow: '0 1px 3px rgba(0,0,0,0.1)'
+                    background: "#fff",
+                    borderRadius: "12px",
+                    padding: "16px",
+                    cursor: "pointer",
+                    transition: "transform 0.2s",
+                    boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
                   }}
                 >
                   <div
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'flex-start',
-                      marginBottom: '12px'
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "flex-start",
+                      marginBottom: "12px",
                     }}
                   >
                     <div>
                       <IonText
                         style={{
-                          fontSize: '16px',
-                          fontWeight: '600',
-                          color: '#1a1a1a',
-                          display: 'block'
+                          fontSize: "16px",
+                          fontWeight: "600",
+                          color: "#1a1a1a",
+                          display: "block",
                         }}
                       >
                         Pedido #{order.id}
                       </IonText>
                       <IonText
                         style={{
-                          fontSize: '13px',
-                          color: '#6b7280',
-                          display: 'block',
-                          marginTop: '4px'
+                          fontSize: "13px",
+                          color: "#6b7280",
+                          display: "block",
+                          marginTop: "4px",
                         }}
                       >
-                        {order.date} • {order.items} {order.items === 1 ? 'item' : 'itens'}
+                        {order.date} • {order.items}{" "}
+                        {order.items === 1 ? "item" : "itens"}
                       </IonText>
                     </div>
 
                     <IonIcon
                       icon={chevronForward}
                       style={{
-                        fontSize: '20px',
-                        color: '#d1d5db'
+                        fontSize: "20px",
+                        color: "#d1d5db",
                       }}
                     />
                   </div>
 
                   <div
                     style={{
-                      display: 'flex',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      paddingTop: '12px',
-                      borderTop: '1px solid #f3f4f6'
+                      display: "flex",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                      paddingTop: "12px",
+                      borderTop: "1px solid #f3f4f6",
                     }}
                   >
                     <div
                       style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
+                        display: "inline-flex",
+                        alignItems: "center",
                         background: `${getStatusColor(order.status)}15`,
-                        padding: '4px 12px',
-                        borderRadius: '20px'
+                        padding: "4px 12px",
+                        borderRadius: "20px",
                       }}
                     >
                       <IonText
                         style={{
-                          fontSize: '12px',
-                          fontWeight: '600',
-                          color: getStatusColor(order.status)
+                          fontSize: "12px",
+                          fontWeight: "600",
+                          color: getStatusColor(order.status),
                         }}
                       >
                         {getStatusText(order.status)}
@@ -229,12 +243,12 @@ const MyOrders: React.FC = () => {
 
                     <IonText
                       style={{
-                        fontSize: '18px',
-                        fontWeight: '700',
-                        color: '#1a1a1a'
+                        fontSize: "18px",
+                        fontWeight: "700",
+                        color: "#1a1a1a",
                       }}
                     >
-                      R$ {order.total.toFixed(2)}
+                      R$ {(order?.valorTotal?? 0).toFixed(2)}
                     </IonText>
                   </div>
                 </div>

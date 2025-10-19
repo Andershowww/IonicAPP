@@ -22,6 +22,10 @@ const CartPage: React.FC = () => {
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+  const handleCheckout = () => {
+
+    history.push("/payment");
+  };
 
   return (
     <IonPage>
@@ -155,7 +159,7 @@ const CartPage: React.FC = () => {
               <IonButton color="danger" expand="block" onClick={clearCart}>
                 Limpar Carrinho
               </IonButton>
-              <IonButton color="success" expand="block">
+              <IonButton color="success" expand="block" onClick={handleCheckout}>
                 Finalizar Compra
               </IonButton>
             </div>
