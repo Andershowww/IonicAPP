@@ -4,58 +4,74 @@ import {
   IonIcon,
   IonPage,
   IonText,
-  IonToolbar
+  IonToolbar,
+  
 } from '@ionic/react';
 import { arrowBack } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OrderReviewItem from '../components/OrderReviewItem';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import { Camera, CameraResultType } from '@capacitor/camera';
+import { FirebaseService } from '../service/firebaseService';
 
+// Interface de item do pedido
 interface OrderItem {
-  id: number;
+  id: string;
   name: string;
   supplier: string;
   image: string;
-  photo?: string; // armazenará a foto tirada
+  photo?: string; // foto tirada pelo usuário
+}
+
+// Interface do pedido completo
+interface Order {
+  id: string;
+  produtos: OrderItem[];
+  valorTotal: number;
+  date: string;
+  status: string;
+}
+
+// Parâmetros da rota
+interface RouteParams {
+  id: string;
 }
 
 const OrderReview: React.FC = () => {
   const history = useHistory();
+  const { id } = useParams<RouteParams>(); // pega o ID do pedido da URL
 
-  const [orderItems, setOrderItems] = useState<OrderItem[]>([
-    {
-      id: 1,
-      name: 'Cacho de Banana',
-      supplier: 'Fornecedor A',
-      image: '🍌'
-    },
-    {
-      id: 2,
-      name: 'Brócolis',
-      supplier: 'Fornecedor B',
-      image: '🥦'
-    },
-    {
-      id: 3,
-      name: 'Laranja',
-      supplier: 'Fornecedor C',
-      image: '🍊'
-    }
-  ]);
+  const [order, setOrder] = useState<Order | null>(null);
+  const [ratings, setRatings] = useState<{ [key: string]: number }>({});
 
-  const [ratings, setRatings] = useState<{ [key: number]: number }>({});
+  // 🔹 Busca o pedido do Firebase pelo ID
+  useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        const service = new FirebaseService();
+        const data = await service.getOrderById(id);
+        console.log(data)
+        if (data) {
+          setOrder(data as Order);
+        } else {
+          console.warn('Pedido não encontrado.');
+        }
+      } catch (error) {
+        console.error('Erro ao buscar pedido:', error);
+      } 
+    };
 
-  // Função para avaliar o produto (1 a 3 estrelas)
-  const handleRating = (itemId: number, rating: number) => {
+    fetchOrder();
+  }, [id]);
+
+  const handleRating = (itemId: string, rating: number) => {
     setRatings(prev => ({
       ...prev,
       [itemId]: rating
     }));
   };
 
-  // Função que abre a câmera e salva a foto
-  const handleTakePhoto = async (itemId: number) => {
+  const handleTakePhoto = async (itemId: string) => {
     try {
       const photo = await Camera.getPhoto({
         quality: 80,
@@ -63,25 +79,28 @@ const OrderReview: React.FC = () => {
         resultType: CameraResultType.Uri
       });
 
-      // Atualiza o item com o caminho da foto
-      setOrderItems(prev =>
-        prev.map(item =>
-          item.id === itemId ? { ...item, photo: photo.webPath } : item
-        )
-      );
-
-      console.log(`📸 Foto tirada para o item ${itemId}:`, photo.webPath);
+      if (photo?.webPath) {
+        setOrder(prev =>
+          prev
+            ? {
+                ...prev,
+                items: prev.produtos.map(item =>
+                  item.id === itemId ? { ...item, photo: photo.webPath } : item
+                )
+              }
+            : prev
+        );
+      }
     } catch (error) {
       console.error('Erro ao abrir a câmera:', error);
     }
   };
 
-  // Função chamada ao clicar em "Avaliar"
   const handleSubmitReview = () => {
     console.log('⭐ Avaliações:', ratings);
-    console.log('📷 Fotos:', orderItems.map(i => ({ id: i.id, photo: i.photo })));
+    console.log('📷 Fotos:', order?.produtos.map(i => ({ id: i.id, photo: i.photo })));
     alert('Avaliação enviada com sucesso!');
-    history.push('/home');
+    history.push('/');
   };
 
   return (
@@ -104,18 +123,11 @@ const OrderReview: React.FC = () => {
               height: '48px'
             }}
           >
-            {/* Botão de voltar */}
             <IonIcon
               icon={arrowBack}
-              style={{
-                fontSize: '24px',
-                color: '#1a1a1a',
-                cursor: 'pointer'
-              }}
+              style={{ fontSize: '24px', color: '#1a1a1a', cursor: 'pointer' }}
               onClick={() => history.goBack()}
             />
-
-            {/* Título */}
             <IonText
               style={{
                 fontSize: '16px',
@@ -123,9 +135,8 @@ const OrderReview: React.FC = () => {
                 color: '#1a1a1a'
               }}
             >
-              Avaliação do Pedido
+              Avaliação do Pedido #{order?.id}
             </IonText>
-
             <div style={{ width: '24px' }}></div>
           </div>
         </IonToolbar>
@@ -134,7 +145,7 @@ const OrderReview: React.FC = () => {
       {/* Conteúdo */}
       <IonContent fullscreen style={{ '--background': '#f9fafb' }}>
         <div style={{ padding: '16px', paddingBottom: '100px' }}>
-          {orderItems.map(item => (
+          {order?.produtos?.map(item => (
             <div key={item.id}>
               <OrderReviewItem
                 item={item}
@@ -142,7 +153,6 @@ const OrderReview: React.FC = () => {
                 onRating={handleRating}
                 onTakePhoto={handleTakePhoto}
               />
-              {/* Exibe miniatura da foto, se existir */}
               {item.photo && (
                 <div
                   style={{

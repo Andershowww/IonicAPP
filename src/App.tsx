@@ -28,26 +28,21 @@ import Address from "./pages/Address";
 import CustomSplash from "./components/CustomSplash";
 import TrackOrder from "./pages/TrackOrder";
 import Cart from "./pages/Cart";
-import { CartProvider }  from "./context/CartContext";
+import { CartProvider } from "./context/CartContext";
 
 setupIonicReact();
 
 const App: React.FC = () => (
-  <>
     <CartProvider>
       <CustomSplash />
       <IonApp>
         <IonReactRouter>
           <IonRouterOutlet>
             <Route path="/tabs" component={MainTabs} />
-            <Route exact path="/review" component={OrderReview} />
+            <Route exact path="/review/:id" component={OrderReview} />
             <Route exact path="/product/:id" component={Product} />
             <Route exact path="/profile" component={Profile} />
-            <Route
-              exact
-              path="/product-selection"
-              component={ProductSelection}
-            />
+            <Route exact path="/product-selection" component={ProductSelection} />
             <Route exact path="/myorders" component={MyOrders} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/payment" component={Payment} />
@@ -60,7 +55,6 @@ const App: React.FC = () => (
         </IonReactRouter>
       </IonApp>
     </CartProvider>
-  </>
 );
 
 export default App;
