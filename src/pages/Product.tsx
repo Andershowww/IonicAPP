@@ -1,4 +1,4 @@
-import React, { use, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   IonCard,
   IonCardContent,
@@ -17,11 +17,12 @@ import { add, arrowBack, remove } from "ionicons/icons";
 import { useHistory, useParams } from "react-router";
 import { FirebaseService } from "../service/firebaseService";
 import { Product } from "../types";
+import { ProductContext, useCart } from "../context/CartContext";
 
 const ProductComponent: React.FC = () => {
   const history = useHistory();
-
   const { id } = useParams<{ id: string }>();
+  const { addToCart } = useCart();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -40,11 +41,30 @@ const ProductComponent: React.FC = () => {
   if (!product) return <div>Produto não encontrado</div>;
 
   const unitPrice = product.price;
+  const totalPrice = (unitPrice * quantity).toFixed(2);
 
   const increase = () => setQuantity((q) => q + 1);
   const decrease = () => setQuantity((q) => (q > 1 ? q - 1 : 1));
   const addUnits = (n: number) => setQuantity((q) => q + n);
-  const totalPrice = (unitPrice * quantity).toFixed(2);
+  
+  const handleAddToCart = () => {
+    const id = product.id;
+    const name = product.name;
+    const image = product.image;
+
+
+    const newProduct : ProductContext = {
+      id: id, 
+      name: name, 
+      price: unitPrice, 
+      image: image, 
+      quantity: quantity, 
+      totalPrice: totalPrice  
+    }
+
+    addToCart(newProduct);
+    history.push("/tabs/cart");
+  };
 
   return (
     <IonPage>
@@ -92,6 +112,7 @@ const ProductComponent: React.FC = () => {
         </IonToolbar>
       </IonHeader>
 
+      {/* Conteúdo */}
       <IonContent fullscreen>
         <IonCard
           style={{
@@ -121,7 +142,7 @@ const ProductComponent: React.FC = () => {
                 >
                   <p
                     style={{
-                      fontSize: "80px", // aumenta o emoji
+                      fontSize: "80px",
                       width: "300px",
                       height: "200px",
                       borderRadius: "12px",
@@ -158,6 +179,7 @@ const ProductComponent: React.FC = () => {
                       {product.name}
                     </h2>
                   </IonText>
+
                   <IonText>
                     <h3
                       style={{
@@ -247,6 +269,8 @@ const ProductComponent: React.FC = () => {
                       </IonButton>
                     ))}
                   </div>
+
+                  {/* Botão adicionar */}
                   <div
                     style={{
                       display: "flex",
@@ -258,6 +282,7 @@ const ProductComponent: React.FC = () => {
                     }}
                   >
                     <IonButton
+                      onClick={handleAddToCart}
                       color="success"
                       style={{
                         fontWeight: "bold",
@@ -269,6 +294,7 @@ const ProductComponent: React.FC = () => {
                     >
                       ADICIONAR ({quantity})
                     </IonButton>
+
                     <IonText
                       style={{
                         fontWeight: "bold",
