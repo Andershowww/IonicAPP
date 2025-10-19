@@ -1,12 +1,11 @@
 // src/services/mockService.ts
 
-import { Product, CartItem, Order } from '../types';
+import { Product, CartItem, Order } from '../types/index';
 
-// Dados mock para desenvolvimento e testes
 export const MOCK_PRODUCTS: Product[] = [
   {
     id: 'prod-1',
-    name: 'Banana Prata',
+    name: 'Banana Prata Teste mockService',
     price: 3.99,
     rating: 4.8,
     reviews: 287,
@@ -68,7 +67,7 @@ export const MOCK_PRODUCTS: Product[] = [
     reviews: 150,
     image: '🥤',
     category: 'Bebidas',
-    description: 'Refrigerante de cola, 2L',
+    description: 'Refrigerante de cola, 2L VALIDA TESTE MOCK',
     stock: 20,
     supplier: 'Bebidas Brasil',
     createdAt: new Date('2024-01-19'),

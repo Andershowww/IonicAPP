@@ -1,14 +1,17 @@
 // src/environments/environment.ts
 export const environment = {
     production: false,
-    firebase: { // Adicione este objeto 'firebase'
-      apiKey: "SUA_API_KEY",
+    firebase: {
+      apiKey: "AIzaSyDTlgDZtIW4yCqySuWZdGNgjEt8WmsEId4",
       authDomain: "hort-assistente-app.firebaseapp.com",
       projectId: "hort-assistente-app",
-      storageBucket: "hort-assistente-app.appspot.com",
-      messagingSenderId: "SEU_SENDER_ID",
-      appId: "SEU_APP_ID",
-      measurementId: "SEU_MEASUREMENT_ID"
+      storageBucket: "hort-assistente-app.firebasestorage.app",
+      messagingSenderId: "620771814251",
+      appId: "1:620771814251:web:4b4e091e9a107e6ac4ba2e",
+      measurementId: "G-YF86N90XM3"
+    },
+    features: {
+      mockData: false,
+      debugMode: true
     }
   };
-  
