@@ -57,7 +57,6 @@ const MyOrders: React.FC = () => {
       try {
         const service = new FirebaseService();
         const data = await service.getOrders();
-        console.log("pedidos",data)
         setOrders(data as Order[]);
       } catch (error) {
         console.error("Erro ao buscar pedidos:", error);
@@ -161,7 +160,12 @@ const MyOrders: React.FC = () => {
               {orders.map((order) => (
                 <div
                   key={order.id}
-                  onClick={() => history.push(`/order/${order.id}`)}
+                  onClick={() => {
+                    if (order.status === "entregue") {
+                      history.push(`/review/${order.id}`); 
+                    } else {
+                      history.push(`/track-order`); 
+                    }}}
                   style={{
                     background: "#fff",
                     borderRadius: "12px",

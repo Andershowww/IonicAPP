@@ -2,7 +2,7 @@
 
 import { environment } from '../environments/environment';
 import { db } from '../firebase/config';
-import { addDoc, collection, getDocs, serverTimestamp, Timestamp } from 'firebase/firestore';
+import { addDoc, collection, doc, getDoc, getDocs, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { Product } from '../types';
 import { getMockData } from './mockService';
 
@@ -137,7 +137,7 @@ export class FirebaseService {
    * @since 1.0.0
    * @version 1.0.0
    */
-  async getCart(userId: string): Promise<any[]> {
+  async getCart(userId: string): Promise<never[]> {
     console.log('Buscando carrinho do usuário:', userId);
     return [];
   }
@@ -161,6 +161,7 @@ export class FirebaseService {
    * ```
    * 
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   async getFridgeItems(): Promise<any[]> {
     try {
       const fridgeCol = collection(db, 'geladeira');
@@ -195,5 +196,10 @@ export class FirebaseService {
       ...doc.data(),
     }));
     return orders;
+  }
+  async getOrderById(id: string) {
+    const docRef = doc(db, "pedidos", id);
+    const docSnap = await getDoc(docRef);
+    return docSnap.exists() ? { id: docSnap.id, ...docSnap.data() } : null;
   }
 }

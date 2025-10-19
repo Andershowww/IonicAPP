@@ -3,7 +3,7 @@ import { camera, star } from 'ionicons/icons';
 import React from 'react';
 
 interface OrderItem {
-  id: number;
+  id: string; // ✅ agora é string
   name: string;
   supplier: string;
   image: string;
@@ -12,8 +12,8 @@ interface OrderItem {
 interface OrderReviewItemProps {
   item: OrderItem;
   rating?: number;
-  onRating: (itemId: number, rating: number) => void;
-  onTakePhoto: (itemId: number) => void;
+  onRating: (itemId: string, rating: number) => void;
+  onTakePhoto: (itemId: string) => void;
 }
 
 const OrderReviewItem: React.FC<OrderReviewItemProps> = ({
@@ -78,7 +78,7 @@ const OrderReviewItem: React.FC<OrderReviewItemProps> = ({
           </p>
 
           <div style={{ position: 'relative', marginTop: '24px' }}>
-            {/* Ícone da câmera acima das estrelas */}
+            {/* 📸 Ícone da câmera */}
             <IonIcon
               icon={camera}
               onClick={() => onTakePhoto(item.id)}
@@ -108,7 +108,7 @@ const OrderReviewItem: React.FC<OrderReviewItemProps> = ({
               Avaliação
             </IonText>
 
-            {/* Estrelas */}
+            {/* ⭐ Estrelas */}
             <div
               style={{
                 display: 'flex',
