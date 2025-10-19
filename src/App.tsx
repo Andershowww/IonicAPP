@@ -26,6 +26,8 @@ import './theme/variables.css';
 import Profile from './pages/Profile';
 import Address from './pages/Address';
 import CustomSplash from "./components/CustomSplash";
+import TrackOrder from './pages/TrackOrder';
+import Cart from './pages/Cart';
 
 
 setupIonicReact();
@@ -42,7 +44,9 @@ const App: React.FC = () => (
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/product-selection" component={ProductSelection} />
         <Route exact path="/myorders" component={MyOrders} />
+        <Route exact path="/cart" component={Cart} />
         <Route exact path="/payment" component={Payment} />
+        <Route exact path="/track-order" component={TrackOrder} />
         <Route exact path="/address" component={Address} />
         <Route exact path="/">
           <Redirect to="/tabs/home" />
