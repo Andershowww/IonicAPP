@@ -4,36 +4,31 @@ import {
   IonIcon,
   IonPage,
   IonText,
-  IonToolbar
+  IonToolbar,
+  IonSpinner
 } from '@ionic/react';
 import { arrowBack } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import FridgeItem from '../components/FridgeItem';
-
-interface FridgeProduct {
-  id: number;
-  name: string;
-  quantity: number;
-  image: string;
-  category: 'fruit' | 'vegetable' | 'dairy' | 'meat' | 'other';
-  expiryDays: number;
-}
+import { FirebaseService } from '../service/firebaseService';
+import { Product } from '../types';
 
 const MyFridge: React.FC = () => {
-    const history = useHistory();
-  const [fridgeItems] = useState<FridgeProduct[]>([
-    { id: 1, name: 'Banana', quantity: 4, image: '🍌', category: 'fruit', expiryDays: 3 },
-    { id: 2, name: 'Brócolis', quantity: 3, image: '🥦', category: 'vegetable', expiryDays: 5 },
-    { id: 3, name: 'Laranja', quantity: 2, image: '🍊', category: 'fruit', expiryDays: 7 },
-    { id: 4, name: 'Cenoura', quantity: 1, image: '🥕', category: 'vegetable', expiryDays: 2 },
-    { id: 5, name: 'Morango', quantity: 5, image: '🍓', category: 'fruit', expiryDays: 4 },
-    { id: 6, name: 'Tomate', quantity: 6, image: '🍅', category: 'vegetable', expiryDays: 6 },
-    { id: 7, name: 'Leite', quantity: 2, image: '🥛', category: 'dairy', expiryDays: 8 },
-    { id: 8, name: 'Queijo', quantity: 1, image: '🧀', category: 'dairy', expiryDays: 10 }
-  ]);
+  const history = useHistory();
+  const [fridgeItems, setFridgeItems] = useState<Product[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleBuy = (itemId: number) => {
+  useEffect(() => {
+    const service = new FirebaseService();
+    service.getFridgeItems()
+      .then(data => setFridgeItems(data))
+      .catch(() => setError('Não foi possível carregar os itens da geladeira.'))
+      .finally(() => setLoading(false));
+  }, []);
+
+  const handleBuy = (itemId: string) => {
     console.log('Comprar item:', itemId);
   };
 
@@ -60,16 +55,14 @@ const MyFridge: React.FC = () => {
               }}
               onClick={() => history.push("/tabs/home")}
             >
-            {/* Botão de voltar */}
-            <IonIcon
-            icon={arrowBack}
-            style={{
-                fontSize: '24px',
-                color: '#1a1a1a',
-                cursor: 'pointer'
-            }}
-            onClick={() => history.push('/home')}
-            />
+              <IonIcon
+                icon={arrowBack}
+                style={{
+                  fontSize: '24px',
+                  color: '#1a1a1a',
+                  cursor: 'pointer'
+                }}
+              />
             </button>
             <IonText style={{ fontSize: '16px', fontWeight: '600', color: '#1a1a1a' }}>
               Minha Geladeira
@@ -81,25 +74,38 @@ const MyFridge: React.FC = () => {
 
       <IonContent fullscreen style={{ '--background': '#f9fafb' }}>
         <div style={{ padding: '16px', paddingBottom: '100px' }}>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(2, 1fr)',
-            gap: '12px'
-          }}>
-            {fridgeItems.map(item => (
-              <FridgeItem
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                quantity={item.quantity}
-                image={item.image}
-                expiryDays={item.expiryDays}
-                onBuy={handleBuy}
-              />
-            ))}
-          </div>
-        </div>
+          {loading && (
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
+              <IonSpinner name="crescent" />
+            </div>
+          )}
 
+          {error && (
+            <div style={{ textAlign: 'center', color: 'red', padding: '16px' }}>
+              <IonText color="danger">{error}</IonText>
+            </div>
+          )}
+
+          {!loading && !error && (
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: '12px'
+            }}>
+              {fridgeItems.map(item => (
+            <FridgeItem
+              key={item.id}
+              id={typeof item.id === 'string' ? parseInt(item.id) || 0 : item.id}
+              name={item.name}
+              quantity={typeof item.stock === 'number' ? item.stock : 0}
+              image={item.image}
+              expiryDays={"expiryDays" in item && typeof item.expiryDays === "number" ? item.expiryDays : 0}
+              onBuy={() => handleBuy(item.id)}
+            />
+              ))}
+            </div>
+          )}
+        </div>
         <div style={{
           position: 'fixed',
           bottom: '0',
@@ -109,19 +115,6 @@ const MyFridge: React.FC = () => {
           padding: '16px',
           borderTop: '1px solid #f3f4f6'
         }}>
-          <button style={{
-            width: '100%',
-            background: '#16a34a',
-            color: '#fff',
-            fontWeight: '600',
-            padding: '16px',
-            borderRadius: '16px',
-            border: 'none',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}>
-            Minha Geladeira
-          </button>
         </div>
       </IonContent>
     </IonPage>

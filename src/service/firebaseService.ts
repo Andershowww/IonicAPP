@@ -134,4 +134,38 @@ export class FirebaseService {
     console.log('Buscando carrinho do usuário:', userId);
     return [];
   }
+
+  /**
+   * Minha Geladeira
+   * 
+   * @async
+   * @method getFridgeItems
+   * @description Busca todos os itens que contém na geladeira
+   * 
+   * @param {string} userId - ID único do usuário
+   * 
+   * @returns {Promise<any[]>}
+   * 
+   * @example
+   * ```typescript
+   * const service = new FirebaseService();
+   * const cartItems = await service.getCart('user123');
+   * console.log(``);
+   * ```
+   * 
+   */
+  async getFridgeItems(): Promise<any[]> {
+    try {
+      const fridgeCol = collection(db, 'geladeira');
+      const snapshot = await getDocs(fridgeCol);
+      return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+      }));
+    } catch (error) {
+      console.error('Erro ao carregar itens da geladeira:', error);
+      return [];
+    }
+  }
+
 }

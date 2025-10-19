@@ -79,14 +79,14 @@ import {
       setSelectedDelivery(value);
     };
   
+    // AJUSTADO: Redireciona para TrackOrder após finalizar
     const handlePlaceOrder = () => {
       console.log('Pedido realizado:', {
         delivery: selectedDelivery,
         invoice: requestInvoice,
         total: orderSummary.total
       });
-      
-      history.push('/review');
+      history.push('/track-order'); // Redireciona para tela de acompanhamento
     };
   
     return (
@@ -293,7 +293,7 @@ import {
                     <IonIcon icon={card} slot="start" style={{ color: '#666', fontSize: '20px' }} />
                     <IonLabel>
                       <div style={{ fontSize: '14px', fontWeight: '500', color: '#1a1a1a' }}>
-                        Apple Pay
+                        Google Pay
                       </div>
                     </IonLabel>
                     <IonIcon icon={arrowBack} slot="end" style={{ 
