@@ -40,7 +40,7 @@ const App: React.FC = () => (
       <IonRouterOutlet>
         <Route path="/tabs" component={MainTabs} />
         <Route exact path="/review" component={OrderReview} />
-        <Route exact path="/product" component={Product} />
+        <Route exact path="/product/:id" component={Product} />
         <Route exact path="/profile" component={Profile} />
         <Route exact path="/product-selection" component={ProductSelection} />
         <Route exact path="/myorders" component={MyOrders} />
