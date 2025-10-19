@@ -109,19 +109,7 @@ const MyFridge: React.FC = () => {
           padding: '16px',
           borderTop: '1px solid #f3f4f6'
         }}>
-          <button style={{
-            width: '100%',
-            background: '#16a34a',
-            color: '#fff',
-            fontWeight: '600',
-            padding: '16px',
-            borderRadius: '16px',
-            border: 'none',
-            fontSize: '16px',
-            cursor: 'pointer'
-          }}>
-            Minha Geladeira
-          </button>
+          
         </div>
       </IonContent>
     </IonPage>
