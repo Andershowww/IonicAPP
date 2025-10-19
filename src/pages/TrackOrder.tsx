@@ -68,10 +68,10 @@ const TrackOrder: React.FC = () => {
         }}>
           <IonCardContent style={{ padding: '24px 16px' }}>
             <IonText style={{ fontSize: '18px', fontWeight: 600, color: '#232323' }}>
-              Picking up your order...
+              Seu pedido está a caminho...
             </IonText>
             <IonText style={{ fontSize: '13px', color: '#666', display: 'block', marginBottom: '12px' }}>
-              Arriving at 11:45
+              Chegando às 11:45
             </IonText>
 
             {/* Barra de progresso dos status */}
@@ -134,7 +134,7 @@ const TrackOrder: React.FC = () => {
                   fontWeight: 600, fontSize: '15px', color: '#232323'
                 }}>{shopper.name}</div>
                 <div style={{ fontSize: '12px', color: '#666' }}>
-                  Picking Orders <span style={{ color: '#F59E42', marginLeft: '3px' }}>★ {shopper.rating}</span>
+                  Seu pedido está a caminho... <span style={{ color: '#F59E42', marginLeft: '3px' }}>★ {shopper.rating}</span>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '7px', marginLeft: 'auto' }}>
@@ -163,7 +163,7 @@ const TrackOrder: React.FC = () => {
             display: 'block',
             marginBottom: '7px'
           }}>
-            Tip your shopper
+            Dê uma gorjeta ao entregador
           </IonText>
           <IonText style={{
             fontSize: '13px',
@@ -171,7 +171,7 @@ const TrackOrder: React.FC = () => {
             display: 'block',
             marginBottom: '12px'
           }}>
-            Everyone deserves a little kindness
+            Agradeça ao seu entregador com uma gorjeta
           </IonText>
           <div style={{
             display: 'flex',
