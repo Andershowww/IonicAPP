@@ -8,14 +8,42 @@ import {
   IonButton,
   IonAvatar,
   IonItem,
-  IonLabel
+  IonLabel,
+  IonList,
+  IonAlert,
+  IonInput
 } from '@ionic/react';
-import { person, arrowBack, settings, notifications } from 'ionicons/icons';
-import React from 'react';
+import { person, arrowBack, settings, notifications, mail, call, trash, checkmark } from 'ionicons/icons';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+
+const PROFILE_DATA = {
+  name: "João Silva",
+  email: "joao.silva@email.com",
+  phone: "(11) 99999-8888"
+};
 
 const Profile: React.FC = () => {
   const history = useHistory();
+  const [showDeleteAlert, setShowDeleteAlert] = useState(false);
+
+  // States for editing fields
+  const [editingEmail, setEditingEmail] = useState(false);
+  const [email, setEmail] = useState(PROFILE_DATA.email);
+
+  const [editingPhone, setEditingPhone] = useState(false);
+  const [phone, setPhone] = useState(PROFILE_DATA.phone);
+
+  // Simula a confirmação/atualização dos campos
+  const handleConfirmEmail = () => {
+    setEditingEmail(false);
+    // lógica para atualizar e-mail no backend/Firebase, se necessário
+  };
+
+  const handleConfirmPhone = () => {
+    setEditingPhone(false);
+    // lógica para atualizar telefone no backend/Firebase, se necessário
+  };
 
   return (
     <IonPage>
@@ -54,7 +82,6 @@ const Profile: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen style={{ '--background': '#f9fafb' }}>
-        {/* Header do perfil */}
         <div style={{
           background: 'linear-gradient(to right, #86efac, #bbf7d0)',
           padding: '32px 16px',
@@ -71,7 +98,7 @@ const Profile: React.FC = () => {
             justifyContent: 'center',
             fontSize: '32px'
           }}>
-
+            <IonIcon icon={person} style={{ color: '#16a34a', fontSize: '40px' }} />
           </IonAvatar>
           
           <IonText style={{
@@ -81,7 +108,7 @@ const Profile: React.FC = () => {
             display: 'block',
             marginBottom: '4px'
           }}>
-            João Silva
+            {PROFILE_DATA.name}
           </IonText>
           
           <IonText style={{
@@ -89,28 +116,149 @@ const Profile: React.FC = () => {
             color: '#166534',
             display: 'block'
           }}>
-            joao.silva@email.com
+            {email}
           </IonText>
         </div>
 
-        {/* Informações do usuário */}
         <div style={{ padding: '0 16px' }}>
-          <IonItem style={{ '--background': '#fff', borderRadius: '12px', marginBottom: '12px' }}>
-            <IonIcon icon={person} slot="start" style={{ color: '#16a34a' }} />
-            <IonLabel>
-              <h3>Informações Pessoais</h3>
-              <p>Editar dados pessoais</p>
-            </IonLabel>
-          </IonItem>
+          <IonList lines="none" style={{ background: 'transparent' }}>
+            {/* E-mail editável */}
+            <IonItem style={{ '--background': '#fff', borderRadius: '12px', marginBottom: '12px' }}>
+              <IonIcon icon={mail} slot="start" style={{ color: '#16a34a' }} />
+              <IonLabel>
+                <h3>E-mail</h3>
+                {!editingEmail ? (
+                  <div
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                    onClick={() => setEditingEmail(true)}
+                  >
+                    <span>{email}</span>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <IonInput
+                      type="email"
+                      value={email}
+                      onIonChange={e => setEmail(e.detail.value!)}
+                      style={{
+                        background: '#f6f6f6',
+                        borderRadius: '8px',
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
+                        height: '32px',
+                        fontSize: '15px',
+                        width: '180px'
+                      }}
+                    />
+                    <IonButton
+                      size="small"
+                      color="success"
+                      onClick={handleConfirmEmail}
+                      style={{
+                        minWidth: '28px',
+                        width: '28px',
+                        height: '28px',
+                        padding: 0,
+                        borderRadius: '8px',
+                        '--background': '#16a34a',
+                        '--color': '#fff'
+                      }}
+                    >
+                      <IonIcon icon={checkmark} />
+                    </IonButton>
+                  </div>
+                )}
+              </IonLabel>
+            </IonItem>
 
-          <IonItem style={{ '--background': '#fff', borderRadius: '12px', marginBottom: '12px' }}>
-            <IonIcon icon={notifications} slot="start" style={{ color: '#16a34a' }} />
-            <IonLabel>
-              <h3>Notificações</h3>
-              <p>Gerenciar preferências</p>
-            </IonLabel>
-          </IonItem>
+            {/* Telefone editável */}
+            <IonItem style={{ '--background': '#fff', borderRadius: '12px', marginBottom: '12px' }}>
+              <IonIcon icon={call} slot="start" style={{ color: '#16a34a' }} />
+              <IonLabel>
+                <h3>Telefone</h3>
+                {!editingPhone ? (
+                  <div
+                    style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}
+                    onClick={() => setEditingPhone(true)}
+                  >
+                    <span>{phone}</span>
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <IonInput
+                      type="tel"
+                      value={phone}
+                      onIonChange={e => setPhone(e.detail.value!)}
+                      style={{
+                        background: '#f6f6f6',
+                        borderRadius: '8px',
+                        paddingLeft: '8px',
+                        paddingRight: '8px',
+                        height: '32px',
+                        fontSize: '15px',
+                        width: '130px'
+                      }}
+                    />
+                    <IonButton
+                      size="small"
+                      color="success"
+                      onClick={handleConfirmPhone}
+                      style={{
+                        minWidth: '28px',
+                        width: '28px',
+                        height: '28px',
+                        padding: 0,
+                        borderRadius: '8px',
+                        '--background': '#16a34a',
+                        '--color': '#fff'
+                      }}
+                    >
+                      <IonIcon icon={checkmark} />
+                    </IonButton>
+                  </div>
+                )}
+              </IonLabel>
+            </IonItem>
+
+            <IonItem style={{ '--background': '#fff', borderRadius: '10px', marginBottom: '10px' }} button>
+              <IonIcon icon={notifications} slot="start" style={{ color: '#16a34a' }} />
+              <IonLabel>
+                <h3>Notificações</h3>
+                <p>Gerenciar preferências</p>
+              </IonLabel>
+            </IonItem>
+
+            <IonItem style={{ '--background': '#fff', borderRadius: '10px', marginBottom: '10px' }} button onClick={() => setShowDeleteAlert(true)}>
+              <IonIcon icon={trash} slot="start" style={{ color: '#ef4444' }} />
+              <IonLabel>
+                <h3 style={{ color: '#ef4444', fontWeight: 600 }}>Deletar Conta</h3>
+                <p style={{ color: '#ef4444' }}>Excluir conta permanentemente</p>
+              </IonLabel>
+            </IonItem>
+          </IonList>
         </div>
+
+        {/* Alerta de confirmação para deletar conta */}
+        <IonAlert
+          isOpen={showDeleteAlert}
+          onDidDismiss={() => setShowDeleteAlert(false)}
+          header="Deletar conta?"
+          message="Ao confirmar a exclusão, sua conta será marcada para ser deletada em 30 dias. Deseja continuar?"
+          buttons={[
+            {
+              text: 'Cancelar',
+              role: 'cancel',
+              cssClass: 'secondary'
+            },
+            {
+              text: 'Deletar',
+              handler: () => {
+                // lógica para marcar a conta como deletar em 30 dias
+              },
+              cssClass: 'danger'
+            }
+          ]}
+        />
       </IonContent>
     </IonPage>
   );
