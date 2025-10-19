@@ -1,9 +1,9 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'HortiAssistente',
-  webDir: 'dist'
+  appId: 'com.example.app',
+  appName: 'hortiassistente',
+  webDir: 'build'
 };
 
 export default config;
