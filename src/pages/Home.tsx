@@ -7,7 +7,8 @@ import {
   IonToolbar,
   IonButton,
   IonBadge,
-  IonSpinner
+  IonSpinner,
+  IonSearchbar
 } from '@ionic/react';
 import { cart, chevronDown, location } from 'ionicons/icons';
 import React, { useState, useEffect } from 'react';
@@ -25,6 +26,7 @@ const Home: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
   const [cartCount, setCartCount] = useState<number>(0);
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
     const service = new FirebaseService();
@@ -54,9 +56,12 @@ const Home: React.FC = () => {
     history.push('/tabs/myFridge');
   };
 
-  const filteredProducts = selectedCategory === 'Todas' 
-    ? products 
-    : products.filter(product => product.category === selectedCategory);
+  // Novo: filtra produtos por categoria e busca
+  const filteredProducts = products.filter(product => {
+    const matchCategory = selectedCategory === 'Todas' || product.category === selectedCategory;
+    const matchQuery = product.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchCategory && matchQuery;
+  });
 
   return (
     <IonPage>
@@ -89,6 +94,16 @@ const Home: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen style={{ '--background': '#f9fafb' }}>
+        {/* Campo de busca */}
+        <div style={{ padding: '8px 16px 0 16px' }}>
+          <IonSearchbar
+            animated
+            placeholder="Buscar produtos"
+            value={searchQuery}
+            onIonInput={e => setSearchQuery(e.detail.value!)}
+          />
+        </div>
+
         {loading && (
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '200px' }}>
             <IonSpinner name="crescent" />
