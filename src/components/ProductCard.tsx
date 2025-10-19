@@ -17,8 +17,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
   const history = useHistory();
   
   const goToDetail = () => {
-    console.log(id);
-    history.push("/product");
+    const product = {id, name, price, rating, reviews, image};
+    history.push("/product", {product});
   };
 
   const handleAddToCart = (e: React.MouseEvent) => {
