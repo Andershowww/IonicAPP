@@ -105,7 +105,7 @@ const Cart: React.FC = () => {
                   justifyContent: 'center',
                   alignItems: 'center',
                   padding: '0 16px',
-                  position: 'relative', // necessário para posicionar o botão de voltar
+                  position: 'relative',
                   height: '48px'
                 }}>
 
@@ -117,9 +117,9 @@ const Cart: React.FC = () => {
                   color: '#1a1a1a',
                   cursor: 'pointer',
                   position: 'absolute',
-                  left: '16px', // fixa na borda esquerda
+                  left: '16px',
                 }}
-                onClick={() => history.push('/tabs/home')} // <-- volta para a home
+                onClick={() => history.push('/tabs/home')}
             />
 
             <IonButton fill="clear" style={{ display: 'flex', alignItems: 'center', padding: 0, margin: 0,}} onClick={() => setShowModal(true)}>

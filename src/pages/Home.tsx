@@ -51,7 +51,7 @@ const Home: React.FC = () => {
   };
 
   const handleInventoryClick = () => {
-    history.push('/myfridge');
+    history.push('/tabs/myFridge');
   };
 
   const filteredProducts = selectedCategory === 'Todas' 
