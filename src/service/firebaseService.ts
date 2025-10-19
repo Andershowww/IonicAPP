@@ -2,7 +2,7 @@
 
 import { environment } from '../environments/environment';
 import { db } from '../firebase/config';
-import { collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDocs, serverTimestamp, Timestamp } from 'firebase/firestore';
 import { Product } from '../types';
 import { getMockData } from './mockService';
 
@@ -17,6 +17,13 @@ import { getMockData } from './mockService';
  * const products = await firebaseService.getProducts();
  * ```
  */
+export interface Pedido {
+  clienteId: string;
+  data: Timestamp; // timestamp do Firestore
+  produtos: { name: string; quantity: number; price: number }[]; // array de itens
+  status: string;
+  valorTotal: number;
+}
 export class FirebaseService {
   /**
    * Busca todos os produtos disponíveis no Firebase Firestore
@@ -50,11 +57,11 @@ export class FirebaseService {
       console.log('Carregando produtos do Firebase...');
       const productsCol = collection(db, 'products');
       const snapshot = await getDocs(productsCol);
-      
+
       const products = snapshot.docs.map(doc => {
         const data = doc.data();
         console.log('Documento:', doc.id, data);
-        
+
         return {
           id: doc.id,
           name: data.name || '',
@@ -70,7 +77,7 @@ export class FirebaseService {
           updatedAt: data.updatedAt?.toDate ? data.updatedAt.toDate() : new Date()
         } as Product;
       });
-      
+
       console.log('Produtos carregados do Firebase:', products.length);
       return products;
     } catch (error) {
@@ -168,4 +175,25 @@ export class FirebaseService {
     }
   }
 
+
+  async createOrder(orderData: Omit<Pedido, "data">): Promise<void> {
+    try {
+      await addDoc(collection(db, "pedidos"), {
+        ...orderData,
+        createdAt: serverTimestamp(), 
+      });
+
+    } catch (error) {
+      console.error("❌ Erro ao criar pedido:", error);
+      throw error;
+    }
+  }
+  async getOrders() {
+    const querySnapshot = await getDocs(collection(db, "pedidos"));
+    const orders = querySnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    return orders;
+  }
 }

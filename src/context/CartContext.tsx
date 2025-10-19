@@ -33,7 +33,6 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, [cartContext]);
 
   const addToCart = (product: ProductContext) => {
-    console.log(product);
     setCartContext(prev => {
       const existing = prev.find(p => p.id === product.id);
       if (existing) {
