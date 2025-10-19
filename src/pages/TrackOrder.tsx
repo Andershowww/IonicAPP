@@ -11,7 +11,7 @@ import {
 } from '@ionic/react';
 import { cart, call, chatbubbles } from 'ionicons/icons';
 import React from 'react';
-
+import Maps from '../components/Maps';
 
 const shopper = {
   name: 'James Williams',
@@ -52,16 +52,8 @@ const TrackOrder: React.FC = () => {
       </IonHeader>
 
       <IonContent fullscreen style={{ '--background': '#F2F2F2' }}>
-        {/* Mapa */}
-        <div style={{
-          width: '100%',
-          height: '390px',
-          background: `url('/assets/order-map.png') center center / cover no-repeat`,
-          borderRadius: '0 0 24px 24px',
-          position: 'relative',
-        }}>
-          {/* Simulação de status/mapa */}
-        </div>
+        {/* Google Map */}
+        <Maps />
 
         {/* Card de status do pedido */}
         <IonCard style={{
@@ -96,7 +88,6 @@ const TrackOrder: React.FC = () => {
                       fontSize: '23px',
                       color: stage.active ? '#16a34a' : '#cfcfcf'
                     }}>
-                      {/* Icone do status (pode customizar) */}
                       <IonIcon icon={cart} />
                     </div>
                     <div style={{
