@@ -11,7 +11,7 @@ import {
   IonLabel,
   IonList,
   IonAlert,
-  IonInput
+  IonInput,
 } from '@ionic/react';
 import { person, arrowBack, settings, notifications, mail, call, trash, checkmark } from 'ionicons/icons';
 import React, { useState } from 'react';
@@ -34,7 +34,6 @@ const Profile: React.FC = () => {
   const [editingPhone, setEditingPhone] = useState(false);
   const [phone, setPhone] = useState(PROFILE_DATA.phone);
 
-  // Simula a confirmação/atualização dos campos
   const handleConfirmEmail = () => {
     setEditingEmail(false);
     // lógica para atualizar e-mail no backend/Firebase, se necessário
@@ -238,7 +237,6 @@ const Profile: React.FC = () => {
           </IonList>
         </div>
 
-        {/* Alerta de confirmação para deletar conta */}
         <IonAlert
           isOpen={showDeleteAlert}
           onDidDismiss={() => setShowDeleteAlert(false)}
@@ -259,6 +257,7 @@ const Profile: React.FC = () => {
             }
           ]}
         />
+        <div style={{ height: '60px' }}></div>
       </IonContent>
     </IonPage>
   );

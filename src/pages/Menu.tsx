@@ -8,8 +8,6 @@ import {
   IonList,
   IonItem,
   IonLabel,
-  IonButton,
-  IonModal
 } from '@ionic/react';
 import { 
   arrowBack, 
@@ -19,25 +17,22 @@ import {
   logOut,
   qrCode
 } from 'ionicons/icons';
-import React, { useState } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 const Menu: React.FC = () => {
   const history = useHistory();
-  const [showFridgeModal, setShowFridgeModal] = useState(false);
 
   const menuItems = [
     { id: 1, title: 'Minha Conta', icon: person, route: '/tabs/profile' },
-    { id: 2, title: 'Meus Pedidos', icon: list, route: '/tabs/myorders' },
-    { id: 3, title: 'Integração com Geladeira', icon: qrCode, route: '', isFridge: true },
+    { id: 2, title: 'Meus Pedidos', icon: list, route: '/tabs/myorders' }, // Redireciona para MuOrdens.tsx
+    { id: 3, title: 'Integração com Geladeira', icon: qrCode, route: '/tabs/myfridge' },
     { id: 4, title: 'Endereço', icon: location, route: '/tabs/address' },
     { id: 5, title: 'Sair', icon: logOut, route: '/tabs/login', isLogout: true }
   ];
 
-  const handleMenuClick = (route: string, isLogout?: boolean, isFridge?: boolean) => {
-    if (isFridge) {
-      setShowFridgeModal(true);
-    } else if (isLogout) {
+  const handleMenuClick = (route: string, isLogout?: boolean) => {
+    if (isLogout) {
       alert('Logout realizado com sucesso!');
       history.push('/tabs/home');
     } else {
@@ -130,7 +125,7 @@ const Menu: React.FC = () => {
               <IonItem
                 key={item.id}
                 button
-                onClick={() => handleMenuClick(item.route, item.isLogout, item.isFridge)}
+                onClick={() => handleMenuClick(item.route, item.isLogout)}
                 style={{
                   '--background': '#fff',
                   borderRadius: '12px',
@@ -159,21 +154,6 @@ const Menu: React.FC = () => {
             ))}
           </IonList>
         </div>
-
-        {/* Modal de Integração com Geladeira */}
-        <IonModal isOpen={showFridgeModal} onDidDismiss={() => setShowFridgeModal(false)}>
-          <IonContent style={{ '--background': '#fff', padding: '24px' }}>
-            <IonText style={{ fontSize: '18px', fontWeight: '600', color: '#166534', display: 'block', marginBottom: '16px' }}>
-              Integração com Geladeira
-            </IonText>
-            <IonText style={{ fontSize: '15px', color: '#222', display: 'block', marginBottom: '32px' }}>
-              Para integrar seu assistent de mercado, faça a leitura do QR code apontando sua camêra, e pronto, vai ser integrado a sua geladeira ao HortAssistent.
-            </IonText>
-            <IonButton expand="block" onClick={() => setShowFridgeModal(false)} style={{ background: '#16a34a', color: '#fff', borderRadius: '12px' }}>
-              Fechar
-            </IonButton>
-          </IonContent>
-        </IonModal>
 
         {/* Informações adicionais */}
         <div style={{
