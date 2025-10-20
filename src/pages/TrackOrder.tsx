@@ -9,44 +9,59 @@ import {
   IonCardContent,
   IonButton,
 } from '@ionic/react';
-import { cart, call, chatbubbles } from 'ionicons/icons';
+import { cart, arrowBack, call, chatbubbles } from 'ionicons/icons';
 import React from 'react';
 import Maps from '../components/Maps';
+import { useHistory } from 'react-router-dom';
 
 const shopper = {
   name: 'James Williams',
   rating: 4.8,
-  status: 'Picking Items',
+  status: 'Itens Separados',
 };
 
 const orderStages = [
-  { label: 'Confirmed', active: true },
-  { label: 'Picking Items', active: true },
-  { label: 'Out for delivery', active: false },
-  { label: 'Delivered', active: false },
+  { label: 'Confirmado', active: true },
+  { label: 'Itens Separados', active: true },
+  { label: 'Saindo para entrega', active: false },
+  { label: 'Entregue', active: false },
 ];
 
 const tips = [2, 5, 10, 15];
 
 const TrackOrder: React.FC = () => {
+  const history = useHistory();
   return (
     <IonPage>
       {/* Status Bar */}
       <IonHeader className="ion-no-border">
-        <IonToolbar style={{ '--background': '#F2F2F2', minHeight: 53 }}>
+        <IonToolbar style={{ '--background': '#fff', '--padding-top': '8px', '--padding-bottom': '8px' }}>
           <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            padding: '0 18px',
-            height: '53px'
+            padding: '0 16px',
+            height: '48px'
           }}>
-            <IonText style={{ fontWeight: 600, color: '#232323', fontSize: '20px' }}>12:30</IonText>
-            <div>
-              <IonIcon icon="cellular" style={{ fontSize: '17px', color: '#232323', marginRight: 8 }} />
-              <IonIcon icon="wifi" style={{ fontSize: '17px', color: '#232323', marginRight: 8 }} />
-              <IonIcon icon="battery-full" style={{ fontSize: '17px', color: '#232323' }} />
-            </div>
+            <IonIcon
+              icon={arrowBack}
+              style={{
+                fontSize: '24px',
+                color: '#1a1a1a',
+                cursor: 'pointer'
+              }}
+              onClick={() => history.push('/tabs/home')}
+            />
+
+            <IonText style={{
+              fontSize: '16px',
+              fontWeight: '600',
+              color: '#1a1a1a'
+            }}>
+              Rastrear
+            </IonText>
+
+            <div style={{ width: '24px' }}></div>
           </div>
         </IonToolbar>
       </IonHeader>
@@ -67,14 +82,13 @@ const TrackOrder: React.FC = () => {
           zIndex: 2,
         }}>
           <IonCardContent style={{ padding: '24px 16px' }}>
-            <IonText style={{ fontSize: '18px', fontWeight: 600, color: '#232323' }}>
+            <IonText style={{ fontSize: '18px', fontWeight: 600, color: '#fff' }}>
               Seu pedido está a caminho...
             </IonText>
             <IonText style={{ fontSize: '13px', color: '#666', display: 'block', marginBottom: '12px' }}>
               Chegando às 11:45
             </IonText>
 
-            {/* Barra de progresso dos status */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -110,7 +124,6 @@ const TrackOrder: React.FC = () => {
               ))}
             </div>
 
-            {/* Shopper */}
             <div style={{
               display: 'flex',
               alignItems: 'center',
@@ -131,14 +144,14 @@ const TrackOrder: React.FC = () => {
               </div>
               <div>
                 <div style={{
-                  fontWeight: 600, fontSize: '15px', color: '#232323'
+                  fontWeight: 600, fontSize: '15px', color: '#fff'
                 }}>{shopper.name}</div>
                 <div style={{ fontSize: '12px', color: '#666' }}>
                   Seu pedido está a caminho... <span style={{ color: '#F59E42', marginLeft: '3px' }}>★ {shopper.rating}</span>
                 </div>
               </div>
               <div style={{ display: 'flex', gap: '7px', marginLeft: 'auto' }}>
-                <IonButton fill="clear" size="small" color="dark" style={{ margin: 0 }}>
+                <IonButton fill="clear" size="small" color="fff" style={{ margin: 0 }}>
                   <IonIcon icon={call} />
                 </IonButton>
                 <IonButton fill="clear" size="small" color="dark" style={{ margin: 0 }}>
@@ -191,7 +204,7 @@ const TrackOrder: React.FC = () => {
                   color: '#232323'
                 }}
               >
-                ${tip}.00
+                {tip.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
               </IonButton>
             ))}
           </div>

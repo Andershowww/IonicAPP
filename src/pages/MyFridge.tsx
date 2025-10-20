@@ -29,6 +29,7 @@ const MyFridge: React.FC = () => {
   }, []);
 
   const handleBuy = (itemId: string) => {
+    history.push(`/product/${itemId}`);
     console.log('Comprar item:', itemId);
   };
 

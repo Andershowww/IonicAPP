@@ -51,7 +51,6 @@ const MyOrders: React.FC = () => {
     }
   };
 
-  // 🔹 Busca os pedidos do Firebase
   useEffect(() => {
     const fetchOrders = async () => {
       try {
