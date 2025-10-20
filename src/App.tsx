@@ -6,7 +6,6 @@ import OrderReview from "./pages/OrderReview";
 import Product from "./pages/Product";
 import MyOrders from "./pages/MyOrders";
 import Payment from "./pages/Payment";
-import ProductSelection from "./pages/ProductSelection";
 
 /* Core CSS */
 import "@ionic/react/css/core.css";
@@ -42,7 +41,6 @@ const App: React.FC = () => (
             <Route exact path="/review/:id" component={OrderReview} />
             <Route exact path="/product/:id" component={Product} />
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/product-selection" component={ProductSelection} />
             <Route exact path="/myorders" component={MyOrders} />
             <Route exact path="/cart" component={Cart} />
             <Route exact path="/payment" component={Payment} />

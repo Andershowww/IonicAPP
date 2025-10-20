@@ -6,7 +6,6 @@ import {
   IonText,
   IonToolbar,
   IonButton,
-  IonBadge,
   IonSpinner
 } from '@ionic/react';
 import { cart, chevronDown, location } from 'ionicons/icons';
@@ -24,7 +23,6 @@ const Home: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>('Todas');
-  const [cartCount, setCartCount] = useState<number>(0);
 
   useEffect(() => {
     const service = new FirebaseService();
@@ -44,12 +42,6 @@ const Home: React.FC = () => {
   const handleCategorySelect = (category: string) => {
     setSelectedCategory(category);
   };
-
-  const handleAddToCart = (productId: string) => {
-    setCartCount(prev => prev + 1);
-    console.log('Produto adicionado ao carrinho:', productId);
-  };
-
   const handleInventoryClick = () => {
     history.push('/tabs/myFridge');
   };
@@ -82,7 +74,6 @@ const Home: React.FC = () => {
             {/* Botão do carrinho */}
             <IonButton fill="clear" style={{ padding: 0, minWidth: 'auto' }} onClick={() => history.push('/cart')}>
               <IonIcon icon={cart} style={{ color: '#666' }} />
-              {cartCount > 0 && <IonBadge color="danger">{cartCount}</IonBadge>}
             </IonButton>
           </div>
         </IonToolbar>
@@ -142,7 +133,7 @@ const Home: React.FC = () => {
                     rating={product.rating}
                     reviews={product.reviews}
                     image={product.image}
-                    onAdd={() => handleAddToCart(product.id)}
+                    
                   />
                 ))}
               </div>

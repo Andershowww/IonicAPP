@@ -10,22 +10,16 @@ interface ProductCardProps {
   rating: number;
   reviews: number;
   image: string;
-  onAdd?: () => void;
+ 
 }
 
-const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image, onAdd }) => {
+const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, reviews, image }) => {
   const history = useHistory();
   
   const goToDetail = () => {
     history.push(`/product/${id}`);
   };
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (onAdd) {
-      onAdd();
-    }
-  };
 
   return (
     <div
@@ -78,29 +72,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ id, name, price, rating, revi
         {price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}
       </IonText>
 
-      {/* Botão de adicionar ao carrinho */}
-      <button
-        onClick={handleAddToCart}
-        style={{
-          position: 'absolute',
-          top: '12px',
-          right: '12px',
-          background: '#16a34a',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '50%',
-          width: '32px',
-          height: '32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          fontSize: '16px',
-          cursor: 'pointer',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-        }}
-      >
-        +
-      </button>
     </div>
   );
 };
